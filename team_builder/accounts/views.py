@@ -21,9 +21,9 @@ class SignUp(generic.CreateView):
     
 class EditProfile(LoginRequiredMixin, generic.UpdateView):
     model = models.User
-    fields = ['email', 'first_name', 'last_name', 'full_name', 'about', 'avatar']
+    fields = ['full_name', 'about', 'avatar']
     template_name = "accounts/profile_edit.html"
-    success_url = "home"
+    success_url = reverse_lazy("home")
     
     def get_object(self):
         return self.request.user
