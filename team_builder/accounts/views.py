@@ -21,14 +21,13 @@ class SignUp(generic.CreateView):
     
 class EditProfile(LoginRequiredMixin, generic.UpdateView):
     model = models.User
-    fields = ['email', 'first_name', 'last_name', 'about', 'avatar']
+    fields = ['email', 'first_name', 'last_name', 'full_name', 'about', 'avatar']
     template_name = "accounts/profile_edit.html"
     success_url = "home"
     
     def get_object(self):
         return self.request.user
     
-# should redirect to http://localhost:8000/users/me/edit/
 
 
     
