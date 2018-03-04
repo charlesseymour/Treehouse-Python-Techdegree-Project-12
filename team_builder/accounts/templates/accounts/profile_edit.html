@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<form action="" method="post">
+<form id="profile_edit_form" action="" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 {{ form.errors }}
   <div class="bounds circle--page">
@@ -17,7 +17,7 @@
     <div class="grid-70">
       <input type="text" name="full_name" {% if form.full_name.value %} value="{{ form.full_name.value }}" {% endif %} placeholder="Full Name" class="circle--input--h1">
       <div class="circle--article--body">
-        <textarea placeholder="Tell us about yourself...">{% if form.about.value %}{{ form.about.value }}{% endif %}</textarea>
+        <textarea name="about" form="profile_edit_form" placeholder="Tell us about yourself...">{% if form.about.value %}{{ form.about.value }}{% endif %}</textarea>
       </div>
 
       <h2>Past Projects</h2>
@@ -48,14 +48,18 @@
         </tbody>
       </table>
     </div>
-
+    
     <div class="grid-25 grid-push-5">
-
       <div class="circle--secondary--module">
-        <div class="circle--primary--avatar">
+        <div class="circle--primary--avatar"
+            {% if form.instance.avatar %}
+                style="background-image: url('{{ form.instance.avatar.url }}');
+                       background-size: cover;
+                       background-repeat: no-repeat;"
+            {% endif %}>
           <a class="button">
             Upload Photo
-            <input type="file">
+            <input name="avatar" type="file">
           </a>
         </div>
       </div>

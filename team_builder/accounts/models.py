@@ -29,12 +29,16 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save()
         return user
-        
+    
+def user_directory_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.id, filename)
+    
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=50)
     about = models.TextField(blank=True)
-    avatar = models.ImageField(blank=True, null=True)
+    avatar = models.ImageField(blank=True, null=True,
+                               upload_to=user_directory_path)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     
