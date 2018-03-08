@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
 )
 
 from django.db import models
+from projects.models import Skill, Project
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password):
@@ -39,6 +40,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     about = models.TextField(blank=True)
     avatar = models.ImageField(blank=True, null=True,
                                upload_to=user_directory_path)
+    skills = models.ManyToManyField(Skill)
+    projects = models.ManyToManyField(Project)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     
