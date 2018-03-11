@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.forms import modelformset_factory
+from projects import models
 
 class UserCreateForm(UserCreationForm):
     class Meta:
@@ -9,3 +11,5 @@ class UserCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["email"].label = "Email Address"
+        
+SkillFormSet = modelformset_factory(models.Skill, fields=('name',))
