@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-
+{% load accounts_extras %}
 {% block content %}
 <form id="profile_edit_form" action="" method="post" enctype="multipart/form-data">
 {% csrf_token %}
@@ -67,15 +67,14 @@
       <div class="circle--secondary--module">
         <h4>My Skills</h4>
         {{ skill_formset.management_form }}
-        {% for skill_form in skill_formset %}
-            {{ skill_form.as_p }}
-        {% endfor %}
         <ul class="circle--clone--list">
-          <li>
-            <input type="text" placeholder="Skill" />
+        {% for skill_form in skill_formset %}
+          <li>    
+            {{ skill_form }}
             <a class="circle--clone--add">Add Skill</a>
             <a class="circle--clone--remove">Remove</a>
           </li>
+        {% endfor %}
         </ul>
       </div>
 

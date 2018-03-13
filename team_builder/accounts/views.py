@@ -57,10 +57,11 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
         if form.is_valid():
             for fs in formsets:
                 if fs.is_valid():
-                    user = self.object
-                    skill = user.skill_set.create(
-                        name=fs.cleaned_data['name']
-                    )
+                    if 'name' in fs.cleaned_data: 
+                        user = self.object
+                        skill = user.skill_set.create(
+                            name=fs.cleaned_data['name']
+                        )
             return self.form_valid(form)
         return self.form_invalid(form)
         

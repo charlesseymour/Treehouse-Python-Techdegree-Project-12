@@ -4,7 +4,7 @@ from django.db import models
 
 class Skill(models.Model):
     user = models.ManyToManyField(settings.AUTH_USER_MODEL)
-    name = models.CharField(max_length=25)
+    name = models.CharField(max_length=25, verbose_name="")
     
     
 class Project(models.Model):  
