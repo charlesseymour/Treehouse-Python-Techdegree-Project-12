@@ -42,26 +42,24 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         qs = Skill.objects.filter(user=self.get_object())
-        formsets = forms.SkillFormSet(self.request.POST, queryset=qs)
-        # skillnames = Skill.objects.order_by().values('name').distinct()
-        
-        '''if form.is_valid():
-            for fs in formsets:
-                if fs.is_valid():
-                    obj = fs.save(commit=False)
-                    obj.user = self.object
-                    obj.save()
-            return self.form_valid(form)
-        return self.form_invalid(form)'''
-        
+        formsets = forms.SkillFormSet(self.request.POST, queryset=qs)  
+        skill_list = []
         if form.is_valid():
             for fs in formsets:
                 if fs.is_valid():
-                    if 'name' in fs.cleaned_data: 
-                        user = self.object
+                    if 'name' in fs.cleaned_data:
+                        try:
+                            skill = Skill.objects.get(name__iexact=fs.cleaned_data['name'])
+                        except Skill.DoesNotExist:    
+                            skill = Skill(name=fs.cleaned_data['name'])
+                            skill.save()
+                        skill_list.append(skill)
+                        '''user = self.object
                         skill = user.skill_set.create(
                             name=fs.cleaned_data['name']
-                        )
+                        )'''
+            user = self.object
+            user.skill_set.set(skill_list, clear=True)
             return self.form_valid(form)
         return self.form_invalid(form)
         
