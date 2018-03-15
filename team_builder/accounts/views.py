@@ -54,10 +54,6 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
                             skill = Skill(name=fs.cleaned_data['name'])
                             skill.save()
                         skill_list.append(skill)
-                        '''user = self.object
-                        skill = user.skill_set.create(
-                            name=fs.cleaned_data['name']
-                        )'''
             user = self.object
             user.skill_set.set(skill_list, clear=True)
             return self.form_valid(form)
