@@ -6,7 +6,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404
 
 from . import forms, models
-from projects.models import Skill
+from projects.models import Skill, SideProject
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
@@ -23,7 +23,7 @@ class SignUp(generic.CreateView):
 class EditProfile(LoginRequiredMixin, generic.UpdateView):
     model = models.User
     fields = ['full_name', 'about', 'avatar']
-    formset_class = forms.SkillFormSet
+    # formset_class = forms.SkillFormSet
     template_name = "accounts/profile_edit.html"
     success_url = reverse_lazy("home")
     
@@ -32,20 +32,33 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
         
     def get_context_data(self, **kwargs):
         context = super(EditProfile, self).get_context_data(**kwargs)
-        qs = Skill.objects.filter(user=self.get_object())
-        formset = forms.SkillFormSet(queryset=qs)
-        context['skill_formset'] = formset
+        skill_qs = Skill.objects.filter(user=self.get_object())
+        skill_formset = forms.SkillFormSet(queryset=skill_qs, prefix="skills")
+        context['skill_formset'] = skill_formset
+        side_project_qs = SideProject.objects.filter(user=self.get_object())
+        side_project_formset = forms.SideProjectFormSet(
+                                   queryset=side_project_qs, 
+                                   prefix="side_projects")
+        context['side_project_formset'] = side_project_formset
         return context
         
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        qs = Skill.objects.filter(user=self.get_object())
-        formsets = forms.SkillFormSet(self.request.POST, queryset=qs)  
+        skill_qs = Skill.objects.filter(user=self.get_object())
+        skill_formsets = forms.SkillFormSet(self.request.POST,
+                                            queryset=skill_qs,
+                                            prefix="skills")  
         skill_list = []
+        side_project_qs = SideProject.objects.filter(user=self.get_object())
+        side_project_formsets = forms.SideProjectFormSet(self.request.POST,
+                                            queryset=side_project_qs,
+                                            prefix="side_projects")  
+        skill_list = []
+        side_project_list = []
         if form.is_valid():
-            for fs in formsets:
+            for fs in skill_formsets:
                 if fs.is_valid():
                     if 'name' in fs.cleaned_data:
                         try:
@@ -56,6 +69,22 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
                         skill_list.append(skill)
             user = self.object
             user.skill_set.set(skill_list, clear=True)
+            for fs in side_project_formsets:
+                if fs.is_valid():
+                    if 'name' in fs.cleaned_data:
+                        try:
+                            side_project = SideProject.objects.get(
+                                name__iexact=fs.cleaned_data['name'],
+                                url=fs.cleaned_data['url'],
+                                user=user)
+                        except SideProject.DoesNotExist:
+                            side_project = SideProject(
+                                name=fs.cleaned_data['name'],
+                                url=fs.cleaned_data['url'],
+                                user=user)
+                            side_project.save()
+                        side_project_list.append(side_project)
+            user.sideproject_set.set(side_project_list, clear=True)
             return self.form_valid(form)
         return self.form_invalid(form)
         

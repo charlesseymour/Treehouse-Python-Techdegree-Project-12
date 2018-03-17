@@ -17,3 +17,11 @@ SkillFormSet = modelformset_factory(
     models.Skill, 
     fields=('name',),
     widgets={'name': forms.TextInput(attrs={'label': '', 'placeholder': "Skill"})})
+    
+SideProjectFormSet = modelformset_factory(
+    models.SideProject,
+    fields=('name', 'url'),
+    widgets={'name': forms.TextInput(attrs={'label': '', 'placeholder': "Name"}), 
+             'url': forms.TextInput(attrs={'label': '', 'placeholder': "URL"})})
+             
+

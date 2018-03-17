@@ -80,13 +80,15 @@
 
       <div class="circle--secondary--module">
         <h4>My Projects</h4>
+        {{ side_project_formset.management_form }}
         <ul class="circle--clone--list">
+        {% for side_project_form in side_project_formset %}
           <li>
-            <input type="text" placeholder="Project Name" />
-            <input type="text" placeholder="Project URL" />
+            {{ side_project_form }}
             <a class="circle--clone--add">Add Project</a>
             <a class="circle--clone--remove">Remove</a>
           </li>
+        {% endfor %}
         </ul>
       </div>
     </div>
