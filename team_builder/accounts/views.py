@@ -88,6 +88,22 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
             return self.form_valid(form)
         return self.form_invalid(form)
         
+class SignIn(generic.FormView):
+    form_class = AuthenticationForm
+    success_url = reverse_lazy("home")
+    template_name = "accounts/signin.html"
+    
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+        return form_class(self.request, **self.get_form_kwargs())
+        
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super().form_valid(form)
+        
+    
+    
     
     
 # https://stackoverflow.com/questions/45841951/save-formset-in-an-updateview
