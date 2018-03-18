@@ -1,4 +1,4 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -101,6 +101,15 @@ class SignIn(generic.FormView):
     def form_valid(self, form):
         login(self.request, form.get_user())
         return super().form_valid(form)
+        
+class SignOut(generic.RedirectView):
+    url = reverse_lazy("home")
+    
+    def get (sef, request, *args, **kwargs):
+        logout(request)
+        return super().get(request, *args, **kwargs)
+        
+        
         
     
     
