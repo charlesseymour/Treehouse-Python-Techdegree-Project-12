@@ -29,22 +29,16 @@
           </tr>
         </thead>
         <tbody>
+          {% for position in positions %}
           <tr class="clickable-row" data-href="project.html">
             <td>
-              <h3>Invoice Delivery Tool</h3>
+              <h3>{{ position.project.title }}</h3>
             </td>
             <td class="circle--cell--right">
-              <span class="secondary-label">Rails Developer</span>
+              <span class="secondary-label">{{ position.title }}</span>
             </td>
           </tr>
-          <tr class="clickable-row" data-href="project.html">
-            <td>
-              <h3>Twitter Client</h3>
-            </td>
-            <td class="circle--cell--right">
-              <span class="secondary-label">Designer</span>
-            </td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>

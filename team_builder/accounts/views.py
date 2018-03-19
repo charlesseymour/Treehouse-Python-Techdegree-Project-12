@@ -6,7 +6,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404
 
 from . import forms, models
-from projects.models import Skill, SideProject
+from projects.models import Skill, SideProject, Position
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
@@ -40,6 +40,8 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
                                    queryset=side_project_qs, 
                                    prefix="side_projects")
         context['side_project_formset'] = side_project_formset
+        positions = Position.objects.filter(filled_by=self.get_object())
+        context['positions'] = positions
         return context
         
     def post(self, request, *args, **kwargs):
