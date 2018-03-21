@@ -25,6 +25,8 @@ urlpatterns = [
     url(r"^$", views.Home.as_view(), name="home"),
     url(r"^admin/", admin.site.urls),
     url(r"^accounts/", include("accounts.urls", namespace="accounts")),
-    url(r"^accounts/", include("django.contrib.auth.urls"))
+    url(r"^accounts/", include("django.contrib.auth.urls")),
+    url(r"^projects/", include("projects.urls", namespace="projects")),
+    url(r"^projects/", include("django.contrib.auth.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
