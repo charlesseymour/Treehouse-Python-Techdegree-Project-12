@@ -107,11 +107,20 @@ class SignIn(generic.FormView):
 class SignOut(generic.RedirectView):
     url = reverse_lazy("home")
     
-    def get (sef, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         logout(request)
         return super().get(request, *args, **kwargs)
         
-        
+class ViewProfile(generic.DetailView):
+    model = models.User
+    template_name = "accounts/profile.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super(ViewProfile, self).get_context_data(**kwargs)
+        if self.request.user:
+            context['user'] = self.request.user
+        return context
+    
         
     
     
