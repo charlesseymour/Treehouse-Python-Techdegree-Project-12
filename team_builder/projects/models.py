@@ -19,7 +19,9 @@ class Skill(models.Model):
 class Position(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project,
+                                on_delete=models.CASCADE,
+                                null=True)
     filled_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   on_delete=models.CASCADE,
                                   null=True)
