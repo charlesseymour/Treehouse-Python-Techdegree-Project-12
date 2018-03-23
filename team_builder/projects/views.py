@@ -64,7 +64,11 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
             project.position_set.set(position_list, clear=True)
             return self.form_valid(form)
         return self.form_invalid(form)
-        
+
+
+class DeleteProject(LoginRequiredMixin, generic.DeleteView):
+    model = models.Project
+    success_url = reverse_lazy("home")
         
         
 # https://stackoverflow.com/questions/26548018/how-to-feed-success-url-with-pk-from-saved-model

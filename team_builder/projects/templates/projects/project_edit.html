@@ -6,8 +6,8 @@
   <div class="circle--actions--bar">
     <div class="bounds">
       <div class="grid-100">
-        <a class="button button-primary" href="project.html">Save Changes</a>
-        <a class="button button-text" href="index.html">Delete Project</a>
+        <input type="submit" class="button button-primary" value="Save Changes">
+        <a class="button button-text" href="{% url 'projects:project_delete' object.id %}">Delete Project</a>
       </div>
     </div>
   </div>
