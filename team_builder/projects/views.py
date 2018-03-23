@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import get_object_or_404
@@ -17,6 +18,12 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
     fields = ['title', 'description', 'estimate', 'requirements']
     template_name = 'projects/project_edit.html'
     
+    def get_object(self, *args, **kwargs):
+        obj = super(EditProject, self).get_object(*args, **kwargs)
+        if obj.created_by != self.request.user:
+            raise PermissionDenied()
+        return obj
+   
     def get_success_url(self, **kwargs):
         return reverse_lazy('projects:project_view', kwargs={'pk': self.object.pk})
 
@@ -54,10 +61,7 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
                             position.save()
                         position_list.append(position)
             project = self.object
-            print(project.title)
-            print(len(position_list))
             project.position_set.set(position_list, clear=True)
-            print(project.position_set.count())
             return self.form_valid(form)
         return self.form_invalid(form)
         
