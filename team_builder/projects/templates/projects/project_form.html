@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% load accounts_extras %}
+{% block content %}
+<form id="project_create_form" action="" method="post">
+{% csrf_token %}
+  <div class="circle--actions--bar">
+    <div class="bounds">
+      <div class="grid-100">
+       <input type="submit" class="button button-primary icon-on-left" value="Save Project">
+       <a class="button button-text" href="{% url 'home' %}">Discard</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bounds circle--page circle--article">
+    <div class="grid-70">
+      <div class="circle--article--body">
+        <input name="title" type="text" class="circle--input--h1" placeholder="Project Title" />
+        <textarea name="description" placeholder="Project description..."></textarea>
+      </div>
+
+      <div class="circle--project--positions">
+        <h2>Positions</h2>
+        {{ position_formset.management_form }}
+        <ul class="circle--group--list circle--clone--list">
+        {% for position_form in position_formset %}
+          <li>
+            {{ position_form }}
+            <a class="circle--clone--add">Add Position</a>
+            <a class="circle--clone--remove">Remove</a>
+          </li>
+        {% endfor %}
+        </ul>
+        <input type="submit" class="button button-primary icon-on-left" value="Save Project">
+
+      </div>
+    </div>
+
+    <div class="grid-25 grid-push-5">
+
+      <div class="circle--secondary--module">
+        <h3>Project Timeline</h3>
+        <textarea name="estimate" placeholder="Time estimate" class="circle--textarea--input"></textarea>
+      </div>
+
+      <div class="circle--secondary--module">
+        <h3>Applicant Requirements</h3>
+        <textarea name="requirements"></textarea>
+      </div>
+
+    </div>
+  </div>
+</form>
+{% endblock %}

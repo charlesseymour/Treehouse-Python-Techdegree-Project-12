@@ -69,6 +69,50 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
 class DeleteProject(LoginRequiredMixin, generic.DeleteView):
     model = models.Project
     success_url = reverse_lazy("home")
+    
+class CreateProject(LoginRequiredMixin, generic.CreateView):
+    model = models.Project
+    fields = ['title', 'description', 'estimate', 'requirements']
+    
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+        
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('projects:project_view', kwargs={'pk': self.object.pk})
+        
+    def get_context_data(self, **kwargs):
+        context = super(CreateProject, self).get_context_data(**kwargs)
+        position_qs = models.Position.objects.none()
+        position_formset = forms.PositionFormSet(queryset=position_qs,
+                                                 prefix="positions")
+        context['position_formset'] = position_formset
+        return context    
+     
+    def post(self, request, *args, **kwargs):
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        position_qs = models.Position.objects.none()
+        position_formsets = forms.PositionFormSet(self.request.POST,
+                                                  queryset=position_qs,
+                                                  prefix="positions")
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.created_by = self.request.user
+            project.save()
+            for fs in position_formsets:
+                if fs.is_valid():
+                    if 'title' in fs.cleaned_data:
+                        position = models.Position(
+                            title=fs.cleaned_data['title'],
+                            description=fs.cleaned_data['description'],
+                            project=project)
+                        position.save()
+            return self.form_valid(form)
+        return self.form_invalid(form)
+        
+    
+    
         
         
 # https://stackoverflow.com/questions/26548018/how-to-feed-success-url-with-pk-from-saved-model
