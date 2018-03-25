@@ -25,9 +25,13 @@
         <ul class="circle--group--list circle--clone--list">
         {% for position_form in position_formset %}  
           <li>
-            {{ position_form }}
-            <!--<input type="text" class="circle--input--h3" placeholder="Position Title" value="iOS Developer" />
-            <textarea placeholder="Position description...">Lorem ipsum dolor sit amet</textarea>-->
+            {{ position_form.title }}
+            {{ position_form.description }}
+            <p>Skills:</p>
+            {% for checkbox in position_form.skills %}
+              <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
+            {% endfor %}
+            <br><br>
             <a class="circle--clone--add">Add Position</a>
             <a class="circle--clone--remove">Remove</a>
           </li>

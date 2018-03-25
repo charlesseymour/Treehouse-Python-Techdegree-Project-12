@@ -46,19 +46,23 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
         position_list = []
         if form.is_valid():
             for fs in position_formsets:
+                print(fs.errors)
                 if fs.is_valid():
                     if 'title' in fs.cleaned_data:
                         try:
                             position = models.Position.objects.get(
                                 title__iexact=fs.cleaned_data['title'],
                                 description=fs.cleaned_data['description'],
+                                skills=fs.cleaned_data['skills'],
                                 project=self.object)
                         except models.Position.DoesNotExist:
                             position = models.Position(
                                 title=fs.cleaned_data['title'],
                                 description=fs.cleaned_data['description'],
+                                skills=fs.cleaned_data['skills'],
                                 project=self.object)
                             position.save()
+                            print("saved position = " + position)
                         position_list.append(position)
             project = self.object
             project.position_set.set(position_list, clear=True)

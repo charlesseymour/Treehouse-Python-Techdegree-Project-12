@@ -15,6 +15,9 @@ class Skill(models.Model):
     user = models.ManyToManyField(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=25, verbose_name="")
     
+    def __str__(self):
+        return self.name
+    
 
 class Position(models.Model):
     title = models.CharField(max_length=50)
