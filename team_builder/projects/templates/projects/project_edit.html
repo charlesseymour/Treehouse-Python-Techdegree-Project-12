@@ -22,8 +22,7 @@
       <div class="circle--project--positions">
         <h2>Positions</h2>
         {% load formset_tags %}
-        <!--{{ project_form.media }}-->
-        <div id="formset" data-formset-prefix="{{ position_form.prefix }}">
+        <div id="formset" data-formset-prefix="{{ position_formset.prefix }}">
             {{  position_formset.management_form }}
             <div data-formset-body>
                 {% for position_form in position_formset %}  

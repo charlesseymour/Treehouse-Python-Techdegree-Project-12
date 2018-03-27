@@ -29,7 +29,6 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditProject, self).get_context_data(**kwargs)
-        # position_qs = models.Position.objects.filter(project=self.get_object())
         position_formset = forms.PositionInlineFormSet(instance=self.get_object(),
                                                        prefix="positions")
         for subform in position_formset:
