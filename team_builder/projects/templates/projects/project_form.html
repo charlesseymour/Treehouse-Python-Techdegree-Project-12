@@ -21,21 +21,56 @@
 
       <div class="circle--project--positions">
         <h2>Positions</h2>
-        {{ position_formset.management_form }}
-        <ul class="circle--group--list circle--clone--list">
-        {% for position_form in position_formset %}
-          <li>
-            {{ position_form }}
-            <a class="circle--clone--add">Add Position</a>
-            <a class="circle--clone--remove">Remove</a>
-          </li>
-        {% endfor %}
-        </ul>
-        <input type="submit" class="button button-primary icon-on-left" value="Save Project">
+        {% load formset_tags %}
+        <div id="formset" data-formset-prefix="{{ position_formset.prefix }}">
+            {{  position_formset.management_form }}
+            <div data-formset-body>
+                {% for position_form in position_formset %}  
+                  <div data-formset-form>
+                    {{ position_form.id }}
+                    {{ position_form.title }}
+                    {{ position_form.description }}
+                    {{ position_form.project }}
+                    <p>Skills:</p>
+                    {% for checkbox in position_form.skills %}
+                      <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
+                    {% endfor %}
+                    <br><br>
+                    <a class="button button-text" style="padding: 0.3em" data-formset-delete-button>Remove</a>
+                  </div>
+                {% endfor %}
+            </div>
+            
+            <script type="form-template" data-formset-empty-form>
+                {% escapescript %}
+                    <div data-formset-form>
+                        {{ position_formset.empty_form.id }}
+                        {{ position_formset.empty_form.title }}
+                        {{ position_formset.empty_form.description }}
+                        {{ position_formset.empty_form.project }}
+                        <p>Skills:</p>
+                        {% for checkbox in position_formset.empty_form.skills %}
+                            <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
+                        {% endfor %}
+                        <br><br>
+                        <a class="button button-text" style="padding: 0.3em" data-formset-delete-button>Remove</a>
+                    </div>
+                {% endescapescript %}
+            </script>
+            
+            <input type="button" value="Add another" data-formset-add>
+            <script>jQuery(function($) {
+                $("#formset").formset({
+                    animateForms: true
+                });
+            });</script>
+        </div>
+        
+        <input type="submit" class="button button-primary" value="Save Changes">
 
       </div>
     </div>
-
+    
     <div class="grid-25 grid-push-5">
 
       <div class="circle--secondary--module">

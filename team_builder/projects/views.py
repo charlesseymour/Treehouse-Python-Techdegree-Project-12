@@ -4,7 +4,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 
 from . import forms, models
 from accounts.models import User
@@ -61,33 +62,43 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
     model = models.Project
     fields = ['title', 'description', 'estimate', 'requirements']
     
-    def form_valid(self, form):
+    '''def form_valid(self, form):
         form.instance.created_by = self.request.user
-        return super().form_valid(form)
+        return super().form_valid(form)'''
         
     def get_success_url(self, **kwargs):
         return reverse_lazy('projects:project_view', kwargs={'pk': self.object.pk})
         
-    def get_context_data(self, **kwargs):
-        context = super(CreateProject, self).get_context_data(**kwargs)
-        position_qs = models.Position.objects.none()
-        position_formset = forms.PositionFormSet(queryset=position_qs,
-                                                 prefix="positions")
-        context['position_formset'] = position_formset
-        return context    
-     
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        position_qs = models.Position.objects.none()
-        position_formsets = forms.PositionFormSet(self.request.POST,
-                                                  queryset=position_qs,
-                                                  prefix="positions")
-        if form.is_valid():
+        position_formset = forms.PositionInlineFormSet(prefix="positions")
+        return render(self.request,
+                      'projects/project_form.html',
+                      {'form':form, 'position_formset':position_formset})
+    
+    '''def get_context_data(self, **kwargs):
+        context = super(CreateProject, self).get_context_data(**kwargs)
+        position_formset = forms.PositionInlineFormSet(prefix="positions")
+        context['position_formset'] = position_formset
+        return context'''   
+     
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        formset = forms.PositionInlineFormSet(self.request.POST,
+                                              prefix="positions")
+        if form.is_valid() and formset.is_valid():
+            return self.form_valid(form, formset)
+        return self.form_invalid(form, formset)
+        
+        '''if form.is_valid():
             project = form.save(commit=False)
             project.created_by = self.request.user
             project.save()
-            for fs in position_formsets:
+            for fs in formset:
                 if fs.is_valid():
                     if 'title' in fs.cleaned_data:
                         position = models.Position(
@@ -96,9 +107,21 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
                             project=project)
                         position.save()
             return self.form_valid(form)
-        return self.form_invalid(form)
+        return self.form_invalid(form)'''
         
-    
+    def form_valid(self, form, formset):
+        form.instance.created_by = self.request.user
+        self.object = form.save()
+        formset.instance = self.object
+        formset.save()
+        return HttpResponseRedirect(self.get_success_url())
+        
+    def form_invalid(self, form, formset):
+        return render(self.request,
+                      'projects/project_form.html',
+                      {'form':form, 'position_formset':position_formset})
+      
+        
     
         
         

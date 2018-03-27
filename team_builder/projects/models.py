@@ -9,6 +9,9 @@ class Project(models.Model):
     description = models.TextField()
     estimate = models.CharField(max_length=50)
     requirements = models.CharField(max_length=200)
+    
+    def get_absolute_url(self):
+        return reverse('project_view', kwargs={'pk': self.pk})
   
 
 class Skill(models.Model):

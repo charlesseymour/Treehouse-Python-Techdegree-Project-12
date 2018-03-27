@@ -8,7 +8,6 @@ from djangoformsetjs.utils import formset_media_js
 PositionInlineFormSet =  inlineformset_factory(
     models.Project,
     models.Position,
-    # form=PositionForm,
     fields=('title', 'description', 'skills', 'project'),
     extra=0,
     widgets={'title': forms.TextInput(attrs={'label': '',
