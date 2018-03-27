@@ -23,8 +23,7 @@ class Position(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     project = models.ForeignKey(Project,
-                                on_delete=models.CASCADE,
-                                null=True)
+                                on_delete=models.CASCADE)
     filled_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   on_delete=models.CASCADE,
                                   null=True)

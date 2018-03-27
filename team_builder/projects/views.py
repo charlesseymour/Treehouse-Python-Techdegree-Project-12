@@ -29,9 +29,11 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(EditProject, self).get_context_data(**kwargs)
-        position_qs = models.Position.objects.filter(project=self.get_object())
-        position_formset = forms.PositionFormSet(queryset=position_qs,
-                                                 prefix="positions")
+        # position_qs = models.Position.objects.filter(project=self.get_object())
+        position_formset = forms.PositionInlineFormSet(instance=self.get_object(),
+                                                       prefix="positions")
+        for subform in position_formset:
+            subform.initial['project'] = self.object.id
         context['position_formset'] = position_formset
         return context
         
@@ -39,33 +41,15 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        position_qs = models.Position.objects.filter(project=self.object)
-        position_formsets = forms.PositionFormSet(self.request.POST,
-                                                  queryset=position_qs,
-                                                  prefix="positions")
-        position_list = []
-        if form.is_valid():
-            for fs in position_formsets:
-                print(fs.errors)
-                if fs.is_valid():
-                    if 'title' in fs.cleaned_data:
-                        try:
-                            position = models.Position.objects.get(
-                                title__iexact=fs.cleaned_data['title'],
-                                description=fs.cleaned_data['description'],
-                                skills=fs.cleaned_data['skills'],
-                                project=self.object)
-                        except models.Position.DoesNotExist:
-                            position = models.Position(
-                                title=fs.cleaned_data['title'],
-                                description=fs.cleaned_data['description'],
-                                skills=fs.cleaned_data['skills'],
-                                project=self.object)
-                            position.save()
-                            print("saved position = " + position)
-                        position_list.append(position)
-            project = self.object
-            project.position_set.set(position_list, clear=True)
+        print(self.request.POST)
+        formset = forms.PositionInlineFormSet(self.request.POST,
+                                              request.FILES,                                              
+                                              instance=self.object,
+                                              prefix="positions")
+        print("form errors = " + str(form.errors))
+        print("formset errors = " + str(formset.errors))
+        if form.is_valid() and formset.is_valid():
+            formset.save()
             return self.form_valid(form)
         return self.form_invalid(form)
 

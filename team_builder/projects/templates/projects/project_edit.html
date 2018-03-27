@@ -25,8 +25,10 @@
         <ul class="circle--group--list circle--clone--list">
         {% for position_form in position_formset %}  
           <li>
+            {{ position_form.id }}
             {{ position_form.title }}
             {{ position_form.description }}
+            {{ position_form.project }}
             <p>Skills:</p>
             {% for checkbox in position_form.skills %}
               <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
@@ -58,3 +60,5 @@
   </div>
 </form>
 {% endblock %}
+
+<!-- https://teamtreehouse.com/community/add-another-form-in-inlineformset-with-javascript -->
