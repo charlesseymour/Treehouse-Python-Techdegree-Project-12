@@ -3,14 +3,6 @@ from django.forms import inlineformset_factory
 from projects import models
 from accounts import models as accounts_models
 from djangoformsetjs.utils import formset_media_js
-
-'''class PositionForm(forms.ModelForm):
-    class Meta:
-        model = models.Position
-        fields = ['title', 'description', 'skills', 'project']
-        
-    class Media(object):
-        js = formset_media_js'''
         
 
 PositionInlineFormSet =  inlineformset_factory(
