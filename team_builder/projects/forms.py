@@ -19,7 +19,3 @@ PositionInlineFormSet =  inlineformset_factory(
             }
 )
 
-
-# https://stackoverflow.com/questions/22255759/django-forms-dynamic-choices-for-choicefield     
-# https://stackoverflow.com/questions/1760421/how-can-i-render-a-manytomanyfield-as-checkboxes
-# https://stackoverflow.com/questions/22592276/django-how-to-style-a-checkboxselectmultiple-in-a-form

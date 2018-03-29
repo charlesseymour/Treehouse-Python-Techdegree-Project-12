@@ -1183,6 +1183,10 @@ pre > code {
   white-space: pre;
 }
 
+pre > code span {
+  white-space: nowrap;
+}
+
 /* line 18, ../sass/circle/core/code.sass */
 pre {
   display: inline;
@@ -2104,4 +2108,8 @@ input[type="email"].circle--input--h6, input[type="number"].circle--input--h6, i
 /* line 13, ../sass/global.sass */
 .logo:hover {
   box-shadow: 0 0 0 15px #fff inset;
+}
+
+span {
+  white-space: nowrap;
 }

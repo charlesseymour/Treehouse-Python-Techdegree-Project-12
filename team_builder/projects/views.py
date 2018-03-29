@@ -51,7 +51,12 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
         if form.is_valid() and formset.is_valid():
             formset.save()
             return self.form_valid(form)
-        return self.form_invalid(form)
+        return self.form_invalid(form, formset)
+        
+    def form_invalid(self, form, formset): 
+        return render(self.request,        
+                      'projects/project_form.html', 
+                      {'form':form, 'position_formset':formset})
 
 
 class DeleteProject(LoginRequiredMixin, generic.DeleteView):
@@ -61,10 +66,6 @@ class DeleteProject(LoginRequiredMixin, generic.DeleteView):
 class CreateProject(LoginRequiredMixin, generic.CreateView):
     model = models.Project
     fields = ['title', 'description', 'estimate', 'requirements']
-    
-    '''def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        return super().form_valid(form)'''
         
     def get_success_url(self, **kwargs):
         return reverse_lazy('projects:project_view', kwargs={'pk': self.object.pk})
@@ -77,12 +78,7 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
         return render(self.request,
                       'projects/project_form.html',
                       {'form':form, 'position_formset':position_formset})
-    
-    '''def get_context_data(self, **kwargs):
-        context = super(CreateProject, self).get_context_data(**kwargs)
-        position_formset = forms.PositionInlineFormSet(prefix="positions")
-        context['position_formset'] = position_formset
-        return context'''   
+      
      
     def post(self, request, *args, **kwargs):
         self.object = None
@@ -94,21 +90,6 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
             return self.form_valid(form, formset)
         return self.form_invalid(form, formset)
         
-        '''if form.is_valid():
-            project = form.save(commit=False)
-            project.created_by = self.request.user
-            project.save()
-            for fs in formset:
-                if fs.is_valid():
-                    if 'title' in fs.cleaned_data:
-                        position = models.Position(
-                            title=fs.cleaned_data['title'],
-                            description=fs.cleaned_data['description'],
-                            project=project)
-                        position.save()
-            return self.form_valid(form)
-        return self.form_invalid(form)'''
-        
     def form_valid(self, form, formset):
         form.instance.created_by = self.request.user
         self.object = form.save()
@@ -119,10 +100,12 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
     def form_invalid(self, form, formset):
         return render(self.request,
                       'projects/project_form.html',
-                      {'form':form, 'position_formset':position_formset})
+                      {'form':form, 'position_formset':formset})
       
         
     
         
         
-# https://stackoverflow.com/questions/26548018/how-to-feed-success-url-with-pk-from-saved-model
+# https://stackoverflow.com/questions/36946290/inline-form-validation-returns-empty-formset-errors-list
+
+

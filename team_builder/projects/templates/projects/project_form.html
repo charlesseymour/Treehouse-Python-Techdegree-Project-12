@@ -15,8 +15,8 @@
   <div class="bounds circle--page circle--article">
     <div class="grid-70">
       <div class="circle--article--body">
-        <input name="title" type="text" class="circle--input--h1" placeholder="Project Title" />
-        <textarea name="description" placeholder="Project description..."></textarea>
+        <input name="title" type="text" {% if form.title.value %} value="{{ form.title.value }}" {% endif %} class="circle--input--h1" placeholder="Project Title" />
+        <textarea name="description" placeholder="Project description...">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
       </div>
 
       <div class="circle--project--positions">
@@ -36,7 +36,8 @@
                       <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
                     {% endfor %}
                     <br><br>
-                    <a class="button button-text" style="padding: 0.3em" data-formset-delete-button>Remove</a>
+                    <div style="display:none">{{ position_form.DELETE }}</div>
+                    <input type="button" value="Remove" data-formset-delete-button>
                   </div>
                 {% endfor %}
             </div>
@@ -53,7 +54,8 @@
                             <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
                         {% endfor %}
                         <br><br>
-                        <a class="button button-text" style="padding: 0.3em" data-formset-delete-button>Remove</a>
+                        <div style="display:none">{{ position_formset.empty_form.DELETE }}</div>
+                        <input type="button" value="Remove" data-formset-delete-button>
                     </div>
                 {% endescapescript %}
             </script>
@@ -75,12 +77,12 @@
 
       <div class="circle--secondary--module">
         <h3>Project Timeline</h3>
-        <textarea name="estimate" placeholder="Time estimate" class="circle--textarea--input"></textarea>
+        <textarea name="estimate" placeholder="Time estimate" class="circle--textarea--input">{% if form.estimate.value %}{{ form.estimate.value }}{% endif %}</textarea>
       </div>
 
       <div class="circle--secondary--module">
         <h3>Applicant Requirements</h3>
-        <textarea name="requirements"></textarea>
+        <textarea name="requirements">{% if form.requirements.value %}{{ form.requirements.value }}{% endif %}</textarea>
       </div>
 
     </div>

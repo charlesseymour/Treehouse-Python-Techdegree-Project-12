@@ -15,7 +15,33 @@
   <div class="bounds circle--page circle--article">
     <div class="grid-70">
       <div class="circle--article--body">
+        {% if form.errors %}
+          {% if form.title.errors or form.description.errors or form.estimate.errors or form.requirements.errors %}
+            <div style="color:red;"><strong>One or more fields needs correcting.</strong></div>
+            <br><br>
+          {% endif %}
+          {% for error in form.non_field_errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+        {% if form.title.errors %}
+          {% for error in form.title.errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}  
         <input type="text" name="title" {% if form.title.value %} value="{{ form.title.value }}" {% endif %} class="circle--input--h1" placeholder="Project Title" />
+        {% if form.description.errors %}
+          {% for error in form.description.errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
         <textarea name="description" placeholder="Project description...">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
       </div>
 
@@ -25,6 +51,13 @@
         <div id="formset" data-formset-prefix="{{ position_formset.prefix }}">
             {{  position_formset.management_form }}
             <div data-formset-body>
+                {% if position_formset.errors %}
+                  {% for dict in position_formset.errors %}
+                    {% for error in dict.values %}
+                        <div style="color:red;">{{ error }}</div>
+                    {% endfor %}
+                  {% endfor %}
+                {% endif %}
                 {% for position_form in position_formset %}  
                   <div data-formset-form>
                     {{ position_form.id }}
@@ -35,8 +68,10 @@
                     {% for checkbox in position_form.skills %}
                       <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
                     {% endfor %}
-                    <br><br>
-                    <a class="button button-text" style="padding: 0.3em" data-formset-delete-button>Remove</a>
+                    <br>
+                    <div style="display:none">{{ position_form.DELETE }}</div>
+                    <input type="button" value="Remove" data-formset-delete-button>
+                    <br>
                   </div>
                 {% endfor %}
             </div>
@@ -52,8 +87,10 @@
                         {% for checkbox in position_formset.empty_form.skills %}
                             <span>{{ checkbox.tag }} {{ checkbox.choice_label }}</span>
                         {% endfor %}
-                        <br><br>
-                        <a class="button button-text" style="padding: 0.3em" data-formset-delete-button>Remove</a>
+                        <br>
+                        <div style="display:none">{{ position_formset.empty_form.DELETE }}</div>
+                        <input type="button" value="Remove" data-formset-delete-button>
+                        <br>
                     </div>
                 {% endescapescript %}
             </script>
@@ -74,11 +111,25 @@
     <div class="grid-25 grid-push-5">
       <div class="circle--secondary--module">
         <h3>Project Timeline</h3>
+        {% if form.estimate.errors %}
+          {% for error in form.estimate.errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
         <textarea name="estimate" placeholder="Time estimate" class="circle--textarea--input">{% if form.estimate.value %}{{ form.estimate.value }}{% endif %}</textarea>
       </div>
 
       <div class="circle--secondary--module">
         <h3>Application Requirements</h3>
+        {% if form.requirements.errors %}
+          {% for error in form.requirements.errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
         <textarea name="requirements">{% if form.requirements.value %}{{ form.requirements.value }}{% endif %}</textarea>
       </div>
 
@@ -86,6 +137,3 @@
   </div>
 </form>
 {% endblock %}
-
-<!-- https://teamtreehouse.com/community/add-another-form-in-inlineformset-with-javascript -->
-<!-- https://stackoverflow.com/questions/43501162/formset-is-not-a-function-typeerror-using-jquery-formset-js -->
