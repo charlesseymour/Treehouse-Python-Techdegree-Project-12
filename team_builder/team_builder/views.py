@@ -1,12 +1,12 @@
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView
+from django.views.generic import ListView
 
+from projects.models import Project, Position
 
-class Home(TemplateView):
-    template_name = "index.html"
-
-    '''def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse("home"))
-        return super().get(request, *args, **kwargs)'''
+class Home(ListView):
+    model = Project
+    template_name = 'index.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['position_list'] = Position.objects.all()
+        return context
