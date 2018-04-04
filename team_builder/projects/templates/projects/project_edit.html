@@ -50,15 +50,16 @@
         {% load formset_tags %}
         <div id="formset" data-formset-prefix="{{ position_formset.prefix }}">
             {{  position_formset.management_form }}
-            <div data-formset-body>
-                {% if position_formset.errors %}
-                  {% for dict in position_formset.errors %}
-                    {% for error in dict.values %}
-                        <div style="color:red;">{{ error }}</div>
-                    {% endfor %}
-                  {% endfor %}
+            {% if formset_errors %}
+              {% for error in formset_errors %}
+                {% if error %}
+                  <p style="color:blue;">Position {{ forloop.counter }}:</p>
+                  <div style="color:red;">{{ error }}</div>
                 {% endif %}
-                {% for position_form in position_formset %}  
+              {% endfor %}
+            {% endif %}
+            <div data-formset-body>
+                {% for position_form in position_formset %}
                   <div data-formset-form>
                     {{ position_form.id }}
                     {{ position_form.title }}

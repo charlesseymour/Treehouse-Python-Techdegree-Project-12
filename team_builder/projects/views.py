@@ -48,15 +48,19 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
                                               prefix="positions")
         print("form errors = " + str(form.errors))
         print("formset errors = " + str(formset.errors))
+        print(formset.errors[0]['title'])
         if form.is_valid() and formset.is_valid():
             formset.save()
             return self.form_valid(form)
         return self.form_invalid(form, formset)
         
-    def form_invalid(self, form, formset): 
+    def form_invalid(self, form, formset):
         return render(self.request,        
-                      'projects/project_form.html', 
-                      {'form':form, 'position_formset':formset})
+                      'projects/project_edit.html', 
+                      {'object': self.object,
+                       'form':form,
+                       'position_formset':formset,
+                       'formset_errors': formset.errors})
 
 
 class DeleteProject(LoginRequiredMixin, generic.DeleteView):
