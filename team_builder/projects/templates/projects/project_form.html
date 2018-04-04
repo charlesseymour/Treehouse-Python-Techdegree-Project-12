@@ -15,7 +15,33 @@
   <div class="bounds circle--page circle--article">
     <div class="grid-70">
       <div class="circle--article--body">
+        {% if form.errors %}
+          {% if form.title.errors or form.description.errors or form.estimate.errors or form.requirements.errors %}
+            <div style="color:red;"><strong>One or more fields needs correcting.</strong></div>
+            <br><br>
+          {% endif %}
+          {% for error in form.non_field_errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
+        {% if form.title.errors %}
+          {% for error in form.title.errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}  
         <input name="title" type="text" {% if form.title.value %} value="{{ form.title.value }}" {% endif %} class="circle--input--h1" placeholder="Project Title" />
+        {% if form.description.errors %}
+          {% for error in form.description.errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          {% endfor %}
+        {% endif %}
         <textarea name="description" placeholder="Project description...">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
       </div>
 
@@ -24,6 +50,14 @@
         {% load formset_tags %}
         <div id="formset" data-formset-prefix="{{ position_formset.prefix }}">
             {{  position_formset.management_form }}
+            {% if formset_errors %}
+              {% for error in formset_errors %}
+                {% if error %}
+                  <p style="color:blue;">Position {{ forloop.counter }}:</p>
+                  <div style="color:red;">{{ error }}</div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
             <div data-formset-body>
                 {% for position_form in position_formset %}  
                   <div data-formset-form>

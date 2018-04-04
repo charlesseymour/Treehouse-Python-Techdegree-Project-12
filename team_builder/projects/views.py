@@ -104,7 +104,9 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
     def form_invalid(self, form, formset):
         return render(self.request,
                       'projects/project_form.html',
-                      {'form':form, 'position_formset':formset})
+                      {'form':form,
+                       'position_formset':formset,
+                       'formset_errors': formset.errors})
       
         
     
