@@ -31,6 +31,11 @@ class Position(models.Model):
                                   on_delete=models.CASCADE,
                                   null=True)
     skills = models.ManyToManyField(Skill)
+    slug = models.SlugField()
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(position, self).save(*args, **kwargs)
     
 
 class SideProject(models.Model):
@@ -39,3 +44,6 @@ class SideProject(models.Model):
                              null=True)
     name = models.CharField(max_length=25, verbose_name="")
     url = models.URLField(verbose_name="")
+    
+# https://django-autoslug.readthedocs.io/en/latest/index.html
+

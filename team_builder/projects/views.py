@@ -70,6 +70,7 @@ class DeleteProject(LoginRequiredMixin, generic.DeleteView):
 class CreateProject(LoginRequiredMixin, generic.CreateView):
     model = models.Project
     fields = ['title', 'description', 'estimate', 'requirements']
+    login_url = reverse_lazy("accounts:signin")
         
     def get_success_url(self, **kwargs):
         return reverse_lazy('projects:project_view', kwargs={'pk': self.object.pk})
