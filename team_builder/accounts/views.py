@@ -6,7 +6,7 @@ from django.views import generic
 from django.shortcuts import get_object_or_404
 
 from . import forms, models
-from projects.models import Skill, SideProject, Position
+from projects.models import Skill, SideProject, Position, Application, Project
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
@@ -121,8 +121,19 @@ class ViewProfile(generic.DetailView):
             context['user'] = self.request.user
         return context
     
-        
+class ViewApplications(LoginRequiredMixin, generic.ListView):
+    model = Application
+    template_name = 'accounts/applications.html'
     
+    def get_queryset(self):
+        qs = super(ViewApplications, self).get_queryset()
+        return qs.filter(position__project__created_by=self.request.user)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project_list'] = Project.objects.filter(created_by=self.request.user)
+        context['project_needs'] = Position.objects.filter(project__created_by=self.request.user)
+        return context
     
     
     
