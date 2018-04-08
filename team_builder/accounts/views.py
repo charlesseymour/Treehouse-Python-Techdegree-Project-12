@@ -127,12 +127,23 @@ class ViewApplications(LoginRequiredMixin, generic.ListView):
     
     def get_queryset(self):
         qs = super(ViewApplications, self).get_queryset()
-        return qs.filter(position__project__created_by=self.request.user)
+        qs = qs.filter(position__project__created_by=self.request.user)
+        if self.kwargs.get('filter'):
+            if self.kwargs.get('filter') == 'stat':
+                return qs.filter(status=self.kwargs.get('slug'))
+            elif self.kwargs.get('filter') == 'proj':
+                return qs.filter(position__project__title=self.kwargs.get('slug'))
+            else:
+                return qs.filter(position__title=self.kwargs.get('slug'))
+        return qs
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['project_list'] = Project.objects.filter(created_by=self.request.user)
         context['project_needs'] = Position.objects.filter(project__created_by=self.request.user)
+        if self.kwargs.get('filter'):
+            context['filter'] = self.kwargs.get('filter')
+            context['slug'] = self.kwargs.get('slug')
         return context
     
     

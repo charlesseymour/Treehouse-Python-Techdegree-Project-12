@@ -11,6 +11,7 @@ urlpatterns = [
     url(r"signout/$", views.SignOut.as_view(), name="signout"),
     url(r"view/(?P<pk>\d+)/", views.ViewProfile.as_view(), name="view"),
     url(r"applications/$", views.ViewApplications.as_view(), name="applications_view"),
-    url(r"applications/(?P<slug>[a-z0-9_-]+)/$", views.ViewApplications.as_view(), name="applications_view"),
+    url(r"applications/(?P<filter>(stat|proj|pos))/(?P<slug>[a-z0-9_-]+)/$", 
+                        views.ViewApplications.as_view(), name="applications_view")
 ]
 

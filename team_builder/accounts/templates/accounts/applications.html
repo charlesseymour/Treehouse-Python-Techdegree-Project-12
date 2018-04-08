@@ -19,19 +19,19 @@
       <div class="circle--filter circle--secondary--module">
         <h4>Status</h4>
         <ul class="circle--filter--list">
-          <li><a class="selected">All Applications</a></li>
-          <li><a>New Applications</a></li>
-          <li><a>Accepted</a></li>
-          <li><a>Rejected</a></li>
+          <li><a {% if not filter or filter != 'stat' %} class="selected" {% else %} href="{% url 'accounts:applications_view' %}" {% endif %}>Any Status</a></li>
+          <li><a {% if filter and filter == 'stat' and slug and slug == 'undecided' %} class="selected" {% else %} href="{% url 'accounts:applications_view' 'stat' 'undecided' %}" {% endif %}>Undecided</a></li>
+          <li><a {% if filter and filter == 'stat' and slug and slug == 'accepted' %} class="selected" {% else %} href="{% url 'accounts:applications_view' 'stat' 'accepted' %}" {% endif %}>Accepted</a></li>
+          <li><a {% if filter and filter == 'stat' and slug and slug == 'rejected' %} class="selected" {% else %} href="{% url 'accounts:applications_view' 'stat' 'rejected' %}" {% endif %}>Rejected</a></li>
         </ul>
       </div>
 
       <div class="circle--filter circle--secondary--module">
         <h4>My Projects</h4>
         <ul class="circle--filter--list">
-          <li><a class="selected">All Projects</a></li>
+          <li><a {% if not filter or filter != 'proj' %} class="selected" {% else %} href="{% url 'accounts:applications_view' %}" {% endif %}>All Projects</a></li>
           {% for project in project_list %}
-          <li><a>{{ project.title }}</a></li>
+          <li><a {% if filter and filter == 'proj' and slug and slug == project.slug %} class="selected" {% else %} href="{% url 'accounts:applications_view' 'proj' project.slug %}" {% endif %}>{{ project.title }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -39,9 +39,9 @@
       <div class="circle--filter circle--secondary--module">
         <h4>Project Needs</h4>
         <ul class="circle--filter--list">
-          <li><a class="selected">All Needs</a></li>
+          <li><a {% if not filter or filter != 'pos' %} class="selected" {% else %} href="{% url 'accounts:applications_view' %}" {% endif %}>All Needs</a></li>
           {% for need in project_needs %}
-          <li><a>{{ need.title }}</a></li>
+          <li><a {% if filter and filter == 'pos' and slug and slug == need.slug %} class="selected" {% else %} href="{% url 'accounts:applications_view' 'pos' need.slug %}" {% endif %}>{{ need.title }}</a></li>
           {% endfor %}
         </ul>
       </div>
@@ -50,28 +50,35 @@
 
     <div class="grid-70 grid-push-5">
       <table class="u-full-width circle--table">
-        <thead>
-          <tr>
-            <th>Applicant</th>
-            <th class="circle--cell--right">Applicant Position</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for application in application_list %}
-          <tr>  
-            <td>
-              <h3><a href="{% url 'accounts:view' application.applicant.id %}">{{ application.applicant.full_name }}</a></h3>
-              <p>{{ application.position.project.title }}</p>
-            </td>
-            <td class="circle--cell--right">
-              <span class="secondary-label">{{ application.position.title }}</span>
-            </td>
-            <td class="circle--cell--right">
-              <span><a href="{% url 'home' %}">Accept</a></span>
-              <span><a href="{% url 'home' %}">Reject</a></span>
-            </td>
-          </tr>
-          {% endfor %}
+        {% if not application_list %}
+          <p><strong>No matching applications.</strong></p>
+        {% else %}
+          <thead>
+            <tr>
+              <th>Applicant</th>
+              <th class="circle--cell--right">Applicant Position</th>
+            </tr>
+          </thead>
+          <tbody>
+          
+            {% for application in application_list %}
+            <tr>  
+              <td>
+                <h3><a href="{% url 'accounts:view' application.applicant.id %}">{{ application.applicant.full_name }}</a></h3>
+                <p>{{ application.position.project.title }}</p>
+              </td>
+              <td class="circle--cell--right">
+                <span class="secondary-label">{{ application.position.title }}</span>
+              </td>
+              {% if application.status == 'undecided' %}
+              <td class="circle--cell--right">
+                <span><a href="{% url 'home' %}">Accept</a></span>
+                <span><a href="{% url 'home' %}">Reject</a></span>
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          {% endif %}
         </tbody>
       </table>
 
