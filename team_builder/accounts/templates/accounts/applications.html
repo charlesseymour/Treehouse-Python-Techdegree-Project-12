@@ -14,7 +14,7 @@
     <div class="circle--page--header grid-100">
       <h2>Applications</h2>
     </div>
-
+    
     <div class="grid-25">
       <div class="circle--filter circle--secondary--module">
         <h4>Status</h4>
@@ -49,6 +49,13 @@
     </div>
 
     <div class="grid-70 grid-push-5">
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
       <table class="u-full-width circle--table">
         {% if not application_list %}
           <p><strong>No matching applications.</strong></p>
@@ -70,12 +77,14 @@
               <td class="circle--cell--right">
                 <span class="secondary-label">{{ application.position.title }}</span>
               </td>
-              {% if application.status == 'undecided' %}
               <td class="circle--cell--right">
-                <span><a href="{% url 'home' %}">Accept</a></span>
-                <span><a href="{% url 'home' %}">Reject</a></span>
+                {% if application.status == 'undecided' %}
+                  <span><a href="{% url 'home' %}">Accept</a></span>
+                  <span><a href="{% url 'home' %}">Reject</a></span>
+                {% else %}
+                  <span>Status: {{ application.status }}</span>
+                {% endif %}
               </td>
-              {% endif %}
             </tr>
             {% endfor %}
           {% endif %}

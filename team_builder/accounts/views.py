@@ -1,9 +1,11 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
 
 from . import forms, models
 from projects.models import Skill, SideProject, Position, Application, Project
@@ -146,9 +148,32 @@ class ViewApplications(LoginRequiredMixin, generic.ListView):
             context['slug'] = self.kwargs.get('slug')
         return context
     
+
+class UpdateApplication(LoginRequiredMixin, generic.DetailView):
+    model = Application
+    template_name = 'accounts/application_confirm.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['decision'] = self.kwargs.get('decision')
+        return context
+        
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        decision = self.kwargs.get('decision')
+        success_url = reverse_lazy('accounts:applications_view')
+        if decision == 'accept':
+            Application.objects.filter(id=self.object.id).update(status='accepted')
+            Application.objects.exclude(id=self.object.id).update(status='rejected')
+        elif decision == 'reject':
+            Application.objects.filter(id=self.object.id).update(status='rejected')
+        messages.success(request, "The application was updated!")
+        return HttpResponseRedirect(success_url)
+            
     
     
-# https://stackoverflow.com/questions/45841951/save-formset-in-an-updateview
-# https://docs.djangoproject.com/en/2.0/ref/models/relations/
+# https://stackoverflow.com/questions/30691591/update-object-in-form-view-without-any-fields-in-django
+
+
     
     
