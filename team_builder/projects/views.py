@@ -13,6 +13,15 @@ from accounts.models import User
 class ViewProject(generic.DetailView):
     model = models.Project
     template_name = "projects/project.html"
+    
+    '''def get_context_data(self, *args, **kwargs):
+        project = self.get_object()
+        context = super(ViewProject, self).get_context_data(*args, **kwargs)
+        status_list = []
+        for position in project.position_set:
+            
+        return context'''
+        
 
 class EditProject(LoginRequiredMixin, generic.UpdateView):
     model = models.Project

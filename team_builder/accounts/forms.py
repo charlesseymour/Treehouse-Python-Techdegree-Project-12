@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django import forms
-from django.forms import modelformset_factory
+from django.forms import ModelForm, modelformset_factory
 from projects import models
 
 class UserCreateForm(UserCreationForm):
@@ -12,6 +12,12 @@ class UserCreateForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["email"].label = "Email Address"
+        
+class ApplicationCreateForm(ModelForm):
+    class Meta:
+        model = models.Application
+        fields = ('applicant', 'position', 'status')
+        widgets = {'applicant': forms.HiddenInput, 'position': forms.HiddenInput, 'status': forms.HiddenInput}
         
 SkillFormSet = modelformset_factory(
     models.Skill, 

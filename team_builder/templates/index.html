@@ -30,6 +30,13 @@
     </div>
 
     <div class="grid-70 grid-push-5">
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
       <table class="u-full-width circle--table">
         <thead>
           <tr>

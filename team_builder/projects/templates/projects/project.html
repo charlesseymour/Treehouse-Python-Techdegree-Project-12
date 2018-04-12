@@ -32,7 +32,13 @@
           <li>
             <h3>{{ position.title }}</h3>
             <p>{{ position.description }}</p>
-            <a class="button button-primary">Apply</a>
+            <a class="button button-primary" 
+              {% if user in position.applicants.all %} 
+                style="opacity:0.5;">Applied
+              {% else %}
+                href="{% url 'accounts:application_create' position.id %}">Apply
+              {% endif %}               
+            </a>
           </li>
           {% endfor %}
         </ul>

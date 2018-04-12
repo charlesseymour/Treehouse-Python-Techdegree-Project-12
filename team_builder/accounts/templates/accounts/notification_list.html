@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% for notification in object_list %}
+
+<p>{{ notification.message }}</p>
+
+{% endfor %}
+
+{% endblock %}

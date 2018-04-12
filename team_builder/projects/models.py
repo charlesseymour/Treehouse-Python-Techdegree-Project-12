@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 from accounts.models import User
 
@@ -54,6 +55,12 @@ class Application(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
     applicant = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=20)
+    
+class Notification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    message = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
     
 
 

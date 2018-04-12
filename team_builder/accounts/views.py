@@ -2,13 +2,15 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 
 from . import forms, models
-from projects.models import Skill, SideProject, Position, Application, Project
+from projects.models import (Skill, SideProject, Position, Application,
+                            Project, Notification)
 
 class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
@@ -122,6 +124,23 @@ class ViewProfile(generic.DetailView):
         if self.request.user:
             context['user'] = self.request.user
         return context
+        
+     
+class CreateApplication(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
+    model = Application
+    success_url = reverse_lazy('home')
+    success_message = 'You have applied for the position!'
+    form_class = forms.ApplicationCreateForm
+    template_name = 'accounts/application_submit.html'
+    
+    def get_initial(self, **kwargs):
+        return {'position': self.kwargs.get('pk'), 'applicant': self.request.user, 'status': 'undecided'}
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['position_title'] = Position.objects.get(id=self.kwargs.get('pk')).title
+        return context
+    
     
 class ViewApplications(LoginRequiredMixin, generic.ListView):
     model = Application
@@ -148,7 +167,7 @@ class ViewApplications(LoginRequiredMixin, generic.ListView):
             context['slug'] = self.kwargs.get('slug')
         return context
     
-
+    
 class UpdateApplication(LoginRequiredMixin, generic.DetailView):
     model = Application
     template_name = 'accounts/application_confirm.html'
@@ -167,11 +186,23 @@ class UpdateApplication(LoginRequiredMixin, generic.DetailView):
             Application.objects.exclude(id=self.object.id).update(status='rejected')
         elif decision == 'reject':
             Application.objects.filter(id=self.object.id).update(status='rejected')
+        Notification.objects.create(user=self.object.applicant,
+                                    message='''You have been {} for the position
+                                    of {} on the project {}'''.format(
+                                        decision,
+                                        self.object.position,
+                                        self.object.position.project)
+                                    )    
         messages.success(request, "The application was updated!")
         return HttpResponseRedirect(success_url)
-            
+        
+class ViewNotifications(LoginRequiredMixin, generic.ListView):
+    model = Notification
     
-    
+    def get_queryset(self):
+        qs = super(ViewNotifications, self).get_queryset()
+        qs = qs.filter(user=self.request.user).order_by('-created_date')
+        
 # https://stackoverflow.com/questions/30691591/update-object-in-form-view-without-any-fields-in-django
 
 

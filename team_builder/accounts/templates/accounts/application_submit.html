@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% load accounts_extras %}
+{% block content %}
+<form action="" method="post">
+{% csrf_token %}
+{{ form }}
+<div class="circle--actions--bar">
+  <div class="bounds">
+    <div class="grid-100">
+      <p>Are you sure you want to apply for the position of {{ position_title }}?</p>
+      <input type="submit" class="button button-primary" value="Yes">
+      <a class="button button-text" href="{% url 'home' %}">Cancel</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
