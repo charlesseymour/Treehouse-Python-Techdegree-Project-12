@@ -79,8 +79,8 @@
               </td>
               <td class="circle--cell--right">
                 {% if application.status == 'undecided' %}
-                  <span><a href="{% url 'home' %}">Accept</a></span>
-                  <span><a href="{% url 'home' %}">Reject</a></span>
+                  <span><a href="{% url 'accounts:application_update' application.id 'accept' %}">Accept</a></span>
+                  <span><a href="{% url 'accounts:application_update' application.id 'reject' %}">Reject</a></span>
                 {% else %}
                   <span>Status: {{ application.status }}</span>
                 {% endif %}

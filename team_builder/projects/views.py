@@ -50,14 +50,10 @@ class EditProject(LoginRequiredMixin, generic.UpdateView):
         self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        print(self.request.POST)
         formset = forms.PositionInlineFormSet(self.request.POST,
                                               request.FILES,                                              
                                               instance=self.object,
                                               prefix="positions")
-        print("form errors = " + str(form.errors))
-        print("formset errors = " + str(formset.errors))
-        print(formset.errors[0]['title'])
         if form.is_valid() and formset.is_valid():
             formset.save()
             return self.form_valid(form)

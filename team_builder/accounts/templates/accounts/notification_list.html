@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-{% for notification in object_list %}
-
-<p>{{ notification.message }}</p>
-
-{% endfor %}
-
+<div style="width:600px;margin:auto;">
+{% if object_list %} 
+    {% for notification in object_list %}
+    <p>{{ notification.message }} <span style="font-size:small">{{ notification.created_date }}</span>
+    {% endfor %}
+{% else %}
+  <p>No notifications to show.</p>
+{% endif %}
+</div>
 {% endblock %}

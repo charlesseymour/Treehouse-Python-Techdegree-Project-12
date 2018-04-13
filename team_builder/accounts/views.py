@@ -184,24 +184,28 @@ class UpdateApplication(LoginRequiredMixin, generic.DetailView):
         if decision == 'accept':
             Application.objects.filter(id=self.object.id).update(status='accepted')
             Application.objects.exclude(id=self.object.id).update(status='rejected')
+            Position.objects.filter(id=self.object.position.id).update(filled_by=self.object.applicant)
         elif decision == 'reject':
             Application.objects.filter(id=self.object.id).update(status='rejected')
         Notification.objects.create(user=self.object.applicant,
-                                    message='''You have been {} for the position
-                                    of {} on the project {}'''.format(
+                                    message='''You have been {}ed for the position
+                                    of {} on the project {}.'''.format(
                                         decision,
-                                        self.object.position,
-                                        self.object.position.project)
+                                        self.object.position.title,
+                                        self.object.position.project.title
+                                        )
                                     )    
         messages.success(request, "The application was updated!")
         return HttpResponseRedirect(success_url)
         
 class ViewNotifications(LoginRequiredMixin, generic.ListView):
     model = Notification
+    template_name = 'accounts/notification_list.html'
     
     def get_queryset(self):
         qs = super(ViewNotifications, self).get_queryset()
         qs = qs.filter(user=self.request.user).order_by('-created_date')
+        return qs
         
 # https://stackoverflow.com/questions/30691591/update-object-in-form-view-without-any-fields-in-django
 

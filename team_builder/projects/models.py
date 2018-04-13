@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 from accounts.models import User
 
@@ -18,7 +19,7 @@ class Project(models.Model):
   
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(position, self).save(*args, **kwargs)
+        super(Project, self).save(*args, **kwargs)
         
 
 class Skill(models.Model):
@@ -34,14 +35,17 @@ class Position(models.Model):
     description = models.TextField()
     project = models.ForeignKey(Project,
                                 on_delete=models.CASCADE)
-    filled = models.BooleanField(default=False)
+    filled_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE,
+                                  null=True,
+                                  related_name="filled")
     skills = models.ManyToManyField(Skill)
     slug = models.SlugField()
     applicants = models.ManyToManyField(User, through='Application')
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(position, self).save(*args, **kwargs)
+        super(Position, self).save(*args, **kwargs)
     
 
 class SideProject(models.Model):
