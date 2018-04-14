@@ -4,8 +4,8 @@
   <div class="circle--actions--bar">
     <nav class="bounds">
       <ul class="circle--pill--list">
-        <li><a class="selected" href="applications.html">Applications</a></li>
-        <li><a href="profile.html">Profile</a></li>
+        <li><a class="selected" href="{% url 'accounts:applications_view' %}">Applications</a></li>
+        <li><a href="{% url 'accounts:view' user.id %}">Profile</a></li>
       </ul>
     </nav>
   </div>
