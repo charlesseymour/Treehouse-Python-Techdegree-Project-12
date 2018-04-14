@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.db.models import Q
 
 from . import forms, models
 from accounts.models import User
@@ -114,7 +115,16 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
                        'position_formset':formset,
                        'formset_errors': formset.errors})
       
-        
+def search(request):
+    term = request.GET.get('q')
+    projects = models.Project.objects.filter(
+        Q(title__icontains=term) |
+        Q(description__icontains=term)
+    )
+    return render(request, 'projects/search.html', {
+                 'projects': projects,
+                 'term': term})
+    
     
         
         
