@@ -183,7 +183,6 @@ class UpdateApplication(LoginRequiredMixin, generic.DetailView):
         success_url = reverse_lazy('accounts:applications_view')
         if decision == 'accept':
             Application.objects.filter(id=self.object.id).update(status='accepted')
-            Application.objects.exclude(id=self.object.id).update(status='rejected')
             Position.objects.filter(id=self.object.position.id).update(filled_by=self.object.applicant)
         elif decision == 'reject':
             Application.objects.filter(id=self.object.id).update(status='rejected')
