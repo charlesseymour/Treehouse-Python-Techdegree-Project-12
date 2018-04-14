@@ -121,9 +121,11 @@ def search(request):
         Q(title__icontains=term) |
         Q(description__icontains=term)
     )
+    positions = models.Position.objects.filter(project__in=projects)
     return render(request, 'projects/search.html', {
                  'projects': projects,
-                 'term': term})
+                 'term': term,
+                 'position_list': positions})
     
     
         
