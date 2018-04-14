@@ -79,7 +79,7 @@
               </td>
               <td class="circle--cell--right">
                 {% if application.status == 'undecided' %}
-                  <span><a href="{% url 'accounts:application_update' application.id 'accept' %}">Accept</a></span>
+                  {% if not application.position.filled_by %}<span><a href="{% url 'accounts:application_update' application.id 'accept' %}">Accept</a></span>{% endif %}
                   <span><a href="{% url 'accounts:application_update' application.id 'reject' %}">Reject</a></span>
                 {% else %}
                   <span>Status: {{ application.status }}</span>

@@ -1,6 +1,15 @@
 {% extends "layout.html" %}
 {% load accounts_extras %}
 {% block content %}
+{% if object.status != 'undecided' %}
+<div style="width:600px;margin:auto;">
+  <p>That application has already been {{ object.status }}.</p>
+</div>
+{% elif object.position.filled_by and decision == 'accept' %}
+<div style="width:600px;margin:auto;">
+  <p>That position has already been filled.</p>
+</div>
+{% else %}
 <form action="" method="post">
 {% csrf_token %}
 <div class="circle--actions--bar">
@@ -12,4 +21,5 @@
     </div>
   </div>
 </div>
+{% endif %}
 {% endblock %}
