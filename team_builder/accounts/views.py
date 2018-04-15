@@ -1,12 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 
 from . import forms, models
 from projects.models import (Skill, SideProject, Position, Application,
@@ -94,7 +97,7 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
             return self.form_valid(form)
         return self.form_invalid(form)
         
-class SignIn(generic.FormView):
+'''class SignIn(generic.FormView):
     form_class = AuthenticationForm
     success_url = reverse_lazy("home")
     template_name = "accounts/signin.html"
@@ -106,7 +109,11 @@ class SignIn(generic.FormView):
         
     def form_valid(self, form):
         login(self.request, form.get_user())
-        return super().form_valid(form)
+        return super().form_valid(form)'''
+        
+
+class SignIn(LoginView):
+    template_name = "accounts/signin.html"     
         
 class SignOut(generic.RedirectView):
     url = reverse_lazy("home")
@@ -114,6 +121,10 @@ class SignOut(generic.RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super().get(request, *args, **kwargs)
+        
+@login_required
+def account_redirect(request):
+    return redirect('accounts:view', pk=request.user.pk)
         
 class ViewProfile(generic.DetailView):
     model = models.User
@@ -181,6 +192,12 @@ class ViewApplications(LoginRequiredMixin, generic.ListView):
 class UpdateApplication(LoginRequiredMixin, generic.DetailView):
     model = Application
     template_name = 'accounts/application_confirm.html'
+    
+    def get_object(self, queryset=None):
+        obj = super(UpdateApplication, self).get_object(queryset=queryset)
+        if obj.position.project.created_by != self.request.user:
+            raise PermissionDenied('Only the creator of the project can accept or reject applications.')
+        return obj
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
