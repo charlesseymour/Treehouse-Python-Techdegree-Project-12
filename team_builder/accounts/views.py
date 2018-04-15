@@ -129,7 +129,6 @@ class ViewProfile(generic.DetailView):
 class CreateApplication(LoginRequiredMixin, SuccessMessageMixin, generic.CreateView):
     model = Application
     success_url = reverse_lazy('home')
-    success_message = 'You have applied for the position!'
     form_class = forms.ApplicationCreateForm
     template_name = 'accounts/application_submit.html'
     
@@ -140,8 +139,19 @@ class CreateApplication(LoginRequiredMixin, SuccessMessageMixin, generic.CreateV
         context = super().get_context_data(**kwargs)
         context['position_title'] = Position.objects.get(id=self.kwargs.get('pk')).title
         return context
-    
-    
+        
+    def form_valid(self, form):
+        position = Position.objects.get(id=self.kwargs.get('pk'))
+        applicant = self.request.user
+        if self.get_queryset().filter(position=position, applicant=applicant):
+            messages.error(self.request, 'You have already applied for that position')
+            return HttpResponseRedirect(reverse_lazy('home'))
+        else:
+            self.object = form.save()
+            messages.success(self.request, 'You have applied for the position!')
+            return HttpResponseRedirect(self.get_success_url())
+      
+  
 class ViewApplications(LoginRequiredMixin, generic.ListView):
     model = Application
     template_name = 'accounts/applications.html'
@@ -205,9 +215,6 @@ class ViewNotifications(LoginRequiredMixin, generic.ListView):
         qs = super(ViewNotifications, self).get_queryset()
         qs = qs.filter(user=self.request.user).order_by('-created_date')
         return qs
-        
-# https://stackoverflow.com/questions/30691591/update-object-in-form-view-without-any-fields-in-django
-
 
     
     

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% load accounts_extras %}
 {% block content %}
-<form id="project_create_form" action="" method="post">
+<form id="project_create_form" action="" method="post" autocomplete="off">
 {% csrf_token %}
   <div class="circle--actions--bar">
     <div class="bounds">

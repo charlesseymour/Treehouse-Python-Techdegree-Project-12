@@ -68,7 +68,6 @@ class DeleteProject(LoginRequiredMixin, generic.DeleteView):
 class CreateProject(LoginRequiredMixin, generic.CreateView):
     model = models.Project
     fields = ['title', 'description', 'estimate', 'requirements']
-    login_url = reverse_lazy("accounts:signin")
         
     def get_success_url(self, **kwargs):
         return reverse_lazy('projects:project_view', kwargs={'pk': self.object.pk})
@@ -108,7 +107,10 @@ class CreateProject(LoginRequiredMixin, generic.CreateView):
                        'formset_errors': formset.errors})
       
 def search(request):
-    term = request.GET.get('q')
+    if request.GET.get('q'):
+        term = request.GET.get('q')
+    else:
+        term = ''
     projects = models.Project.objects.filter(
         Q(title__icontains=term) |
         Q(description__icontains=term)
