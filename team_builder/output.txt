@@ -1,0 +1,195 @@
+.\views.py:5:1: E302 expected 2 blank lines, found 1
+.\views.py:7:1: W293 blank line contains whitespace
+.\views.py:13:1: W293 blank line contains whitespace
+.\views.py:14:1: W293 blank line contains whitespace
+.\views.py:18:1: W391 blank line at end of file
+.\views.py:18:1: W293 blank line contains whitespace
+.\accounts\admin.py:1:1: F401 'django.contrib.admin' imported but unused
+.\accounts\forms.py:7:1: E302 expected 2 blank lines, found 1
+.\accounts\forms.py:11:1: W293 blank line contains whitespace
+.\accounts\forms.py:15:1: W293 blank line contains whitespace
+.\accounts\forms.py:16:1: E302 expected 2 blank lines, found 1
+.\accounts\forms.py:20:80: E501 line too long (110 > 79 characters)
+.\accounts\forms.py:21:1: W293 blank line contains whitespace
+.\accounts\forms.py:22:1: E305 expected 2 blank lines after class or function definition, found 1
+.\accounts\forms.py:23:18: W291 trailing whitespace
+.\accounts\forms.py:25:80: E501 line too long (83 > 79 characters)
+.\accounts\forms.py:26:1: W293 blank line contains whitespace
+.\accounts\forms.py:30:80: E501 line too long (81 > 79 characters)
+.\accounts\forms.py:30:82: W291 trailing whitespace
+.\accounts\forms.py:31:80: E501 line too long (80 > 79 characters)
+.\accounts\forms.py:32:1: W293 blank line contains whitespace
+.\accounts\forms.py:33:1: W391 blank line at end of file
+.\accounts\models.py:9:1: E302 expected 2 blank lines, found 1
+.\accounts\models.py:15:1: W293 blank line contains whitespace
+.\accounts\models.py:17:18: E251 unexpected spaces around keyword / parameter equals
+.\accounts\models.py:17:20: E251 unexpected spaces around keyword / parameter equals
+.\accounts\models.py:22:1: W293 blank line contains whitespace
+.\accounts\models.py:32:1: W293 blank line contains whitespace
+.\accounts\models.py:33:1: E302 expected 2 blank lines, found 1
+.\accounts\models.py:35:1: W293 blank line contains whitespace
+.\accounts\models.py:36:1: E302 expected 2 blank lines, found 1
+.\accounts\models.py:44:1: W293 blank line contains whitespace
+.\accounts\models.py:46:1: W293 blank line contains whitespace
+.\accounts\models.py:49:1: W293 blank line contains whitespace
+.\accounts\models.py:50:1: W293 blank line contains whitespace
+.\accounts\models.py:53:1: W293 blank line contains whitespace
+.\accounts\models.py:55:1: W293 blank line contains whitespace
+.\accounts\models.py:56:1: W391 blank line at end of file
+.\accounts\models.py:56:1: W293 blank line contains whitespace
+.\accounts\models.py:56:1: E303 too many blank lines (7)
+.\accounts\tests.py:1:1: F401 'django.test.TestCase' imported but unused
+.\accounts\urls.py:5:9: E225 missing whitespace around operator
+.\accounts\urls.py:16:77: W291 trailing whitespace
+.\accounts\urls.py:20:80: E501 line too long (108 > 79 characters)
+.\accounts\urls.py:21:80: E501 line too long (88 > 79 characters)
+.\accounts\urls.py:23:1: W391 blank line at end of file
+.\accounts\views.py:4:1: F401 'django.contrib.auth.forms.AuthenticationForm' imported but unused
+.\accounts\views.py:11:1: F401 'django.shortcuts.get_object_or_404' imported but unused
+.\accounts\views.py:11:1: F401 'django.shortcuts.render' imported but unused
+.\accounts\views.py:12:1: F401 'django.http.HttpResponseForbidden' imported but unused
+.\accounts\views.py:16:29: E128 continuation line under-indented for visual indent
+.\accounts\views.py:18:1: E302 expected 2 blank lines, found 1
+.\accounts\views.py:22:1: W293 blank line contains whitespace
+.\accounts\views.py:25:80: E501 line too long (92 > 79 characters)
+.\accounts\views.py:29:1: W293 blank line contains whitespace
+.\accounts\views.py:30:1: E302 expected 2 blank lines, found 1
+.\accounts\views.py:36:1: W293 blank line contains whitespace
+.\accounts\views.py:39:1: W293 blank line contains whitespace
+.\accounts\views.py:47:61: W291 trailing whitespace
+.\accounts\views.py:53:1: W293 blank line contains whitespace
+.\accounts\views.py:61:61: W291 trailing whitespace
+.\accounts\views.py:65:45: E128 continuation line under-indented for visual indent
+.\accounts\views.py:66:45: E128 continuation line under-indented for visual indent
+.\accounts\views.py:66:68: W291 trailing whitespace
+.\accounts\views.py:74:80: E501 line too long (91 > 79 characters)
+.\accounts\views.py:75:51: W291 trailing whitespace
+.\accounts\views.py:99:1: W293 blank line contains whitespace
+.\accounts\views.py:100:1: E305 expected 2 blank lines after class or function definition, found 1
+.\accounts\views.py:104:1: W293 blank line contains whitespace
+.\accounts\views.py:109:1: W293 blank line contains whitespace
+.\accounts\views.py:113:1: W293 blank line contains whitespace
+.\accounts\views.py:116:43: W291 trailing whitespace
+.\accounts\views.py:117:1: W293 blank line contains whitespace
+.\accounts\views.py:118:1: E302 expected 2 blank lines, found 1
+.\accounts\views.py:120:1: W293 blank line contains whitespace
+.\accounts\views.py:124:1: W293 blank line contains whitespace
+.\accounts\views.py:125:1: E302 expected 2 blank lines, found 1
+.\accounts\views.py:128:1: W293 blank line contains whitespace
+.\accounts\views.py:129:1: E302 expected 2 blank lines, found 1
+.\accounts\views.py:132:1: W293 blank line contains whitespace
+.\accounts\views.py:138:1: W293 blank line contains whitespace
+.\accounts\views.py:139:1: W293 blank line contains whitespace
+.\accounts\views.py:140:80: E501 line too long (85 > 79 characters)
+.\accounts\views.py:145:1: W293 blank line contains whitespace
+.\accounts\views.py:147:80: E501 line too long (105 > 79 characters)
+.\accounts\views.py:148:1: W293 blank line contains whitespace
+.\accounts\views.py:151:80: E501 line too long (88 > 79 characters)
+.\accounts\views.py:153:1: W293 blank line contains whitespace
+.\accounts\views.py:158:80: E501 line too long (86 > 79 characters)
+.\accounts\views.py:162:80: E501 line too long (80 > 79 characters)
+.\accounts\views.py:164:1: W293 blank line contains whitespace
+.\accounts\views.py:165:1: W293 blank line contains whitespace
+.\accounts\views.py:169:1: W293 blank line contains whitespace
+.\accounts\views.py:177:80: E501 line too long (82 > 79 characters)
+.\accounts\views.py:181:1: W293 blank line contains whitespace
+.\accounts\views.py:184:80: E501 line too long (86 > 79 characters)
+.\accounts\views.py:185:80: E501 line too long (97 > 79 characters)
+.\accounts\views.py:190:1: W293 blank line contains whitespace
+.\accounts\views.py:191:1: W293 blank line contains whitespace
+.\accounts\views.py:195:1: W293 blank line contains whitespace
+.\accounts\views.py:201:1: W293 blank line contains whitespace
+.\accounts\views.py:206:1: W293 blank line contains whitespace
+.\accounts\views.py:212:80: E501 line too long (83 > 79 characters)
+.\accounts\views.py:213:80: E501 line too long (103 > 79 characters)
+.\accounts\views.py:215:80: E501 line too long (83 > 79 characters)
+.\accounts\views.py:223:38: W291 trailing whitespace
+.\accounts\views.py:226:1: W293 blank line contains whitespace
+.\accounts\views.py:227:1: E302 expected 2 blank lines, found 1
+.\accounts\views.py:230:1: W293 blank line contains whitespace
+.\accounts\views.py:236:1: W293 blank line contains whitespace
+.\accounts\views.py:237:1: W391 blank line at end of file
+.\accounts\views.py:237:1: W293 blank line contains whitespace
+.\accounts\migrations\0001_initial.py:18:80: E501 line too long (114 > 79 characters)
+.\accounts\migrations\0001_initial.py:19:80: E501 line too long (88 > 79 characters)
+.\accounts\migrations\0001_initial.py:20:80: E501 line too long (103 > 79 characters)
+.\accounts\migrations\0001_initial.py:21:80: E501 line too long (196 > 79 characters)
+.\accounts\migrations\0001_initial.py:26:80: E501 line too long (83 > 79 characters)
+.\accounts\migrations\0001_initial.py:29:80: E501 line too long (266 > 79 characters)
+.\accounts\migrations\0001_initial.py:30:80: E501 line too long (229 > 79 characters)
+.\accounts\migrations\0004_auto_20180308_1834.py:17:80: E501 line too long (106 > 79 characters)
+.\accounts\templatetags\accounts_extras.py:5:1: E302 expected 2 blank lines, found 1
+.\accounts\templatetags\accounts_extras.py:9:5: E722 do not use bare except'
+.\accounts\templatetags\accounts_extras.py:11:1: W293 blank line contains whitespace
+.\accounts\templatetags\accounts_extras.py:12:1: E302 expected 2 blank lines, found 1
+.\accounts\templatetags\accounts_extras.py:17:5: E722 do not use bare except'
+.\accounts\templatetags\accounts_extras.py:18:13: W292 no newline at end of file
+.\projects\admin.py:1:1: F401 'django.contrib.admin' imported but unused
+.\projects\forms.py:4:1: F401 'accounts.models as accounts_models' imported but unused
+.\projects\forms.py:5:1: F401 'djangoformsetjs.utils.formset_media_js' imported but unused
+.\projects\forms.py:6:1: W293 blank line contains whitespace
+.\projects\forms.py:8:24: E222 multiple spaces after operator
+.\projects\forms.py:16:80: E501 line too long (83 > 79 characters)
+.\projects\forms.py:19:13: E124 closing bracket does not match visual indentation
+.\projects\forms.py:21:1: W391 blank line at end of file
+.\projects\models.py:8:1: E302 expected 2 blank lines, found 1
+.\projects\models.py:8:29: W291 trailing whitespace
+.\projects\models.py:16:1: W293 blank line contains whitespace
+.\projects\models.py:18:16: F821 undefined name 'reverse'
+.\projects\models.py:19:1: W293 blank line contains whitespace
+.\projects\models.py:23:1: W293 blank line contains whitespace
+.\projects\models.py:28:1: W293 blank line contains whitespace
+.\projects\models.py:31:1: W293 blank line contains whitespace
+.\projects\models.py:45:1: W293 blank line contains whitespace
+.\projects\models.py:49:1: W293 blank line contains whitespace
+.\projects\models.py:57:1: W293 blank line contains whitespace
+.\projects\models.py:58:1: E302 expected 2 blank lines, found 1
+.\projects\models.py:62:1: W293 blank line contains whitespace
+.\projects\models.py:63:1: E302 expected 2 blank lines, found 1
+.\projects\models.py:68:1: W293 blank line contains whitespace
+.\projects\models.py:70:1: W391 blank line at end of file
+.\projects\tests.py:1:1: F401 'django.test.TestCase' imported but unused
+.\projects\urls.py:9:80: E501 line too long (82 > 79 characters)
+.\projects\urls.py:10:80: E501 line too long (88 > 79 characters)
+.\projects\urls.py:13:2: W292 no newline at end of file
+.\projects\views.py:1:1: F401 'django.contrib.auth.login' imported but unused
+.\projects\views.py:1:1: F401 'django.contrib.auth.logout' imported but unused
+.\projects\views.py:1:1: F401 'django.contrib.auth.authenticate' imported but unused
+.\projects\views.py:2:1: F401 'django.contrib.auth.forms.AuthenticationForm' imported but unused
+.\projects\views.py:8:1: F401 'django.shortcuts.get_object_or_404' imported but unused
+.\projects\views.py:12:1: F401 'accounts.models.User' imported but unused
+.\projects\views.py:14:1: E302 expected 2 blank lines, found 1
+.\projects\views.py:17:1: W293 blank line contains whitespace
+.\projects\views.py:23:1: W293 blank line contains whitespace
+.\projects\views.py:29:1: W293 blank line contains whitespace
+.\projects\views.py:31:80: E501 line too long (83 > 79 characters)
+.\projects\views.py:35:80: E501 line too long (82 > 79 characters)
+.\projects\views.py:41:1: W293 blank line contains whitespace
+.\projects\views.py:47:61: W291 trailing whitespace
+.\projects\views.py:54:1: W293 blank line contains whitespace
+.\projects\views.py:56:36: W291 trailing whitespace
+.\projects\views.py:57:52: W291 trailing whitespace
+.\projects\views.py:59:30: E231 missing whitespace after ':'
+.\projects\views.py:60:42: E231 missing whitespace after ':'
+.\projects\views.py:67:1: W293 blank line contains whitespace
+.\projects\views.py:68:1: E302 expected 2 blank lines, found 1
+.\projects\views.py:71:1: W293 blank line contains whitespace
+.\projects\views.py:73:80: E501 line too long (83 > 79 characters)
+.\projects\views.py:74:1: W293 blank line contains whitespace
+.\projects\views.py:82:30: E231 missing whitespace after ':'
+.\projects\views.py:82:55: E231 missing whitespace after ':'
+.\projects\views.py:83:1: W293 blank line contains whitespace
+.\projects\views.py:84:1: W293 blank line contains whitespace
+.\projects\views.py:85:5: E303 too many blank lines (2)
+.\projects\views.py:94:1: W293 blank line contains whitespace
+.\projects\views.py:101:1: W293 blank line contains whitespace
+.\projects\views.py:105:30: E231 missing whitespace after ':'
+.\projects\views.py:106:42: E231 missing whitespace after ':'
+.\projects\views.py:108:1: W293 blank line contains whitespace
+.\projects\views.py:109:1: E302 expected 2 blank lines, found 1
+.\projects\views.py:123:1: W293 blank line contains whitespace
+.\projects\views.py:124:1: W293 blank line contains whitespace
+.\projects\views.py:125:1: W293 blank line contains whitespace
+.\projects\views.py:126:1: W293 blank line contains whitespace
+.\projects\views.py:127:1: E303 too many blank lines (4)
+.\projects\views.py:129:1: W391 blank line at end of file
