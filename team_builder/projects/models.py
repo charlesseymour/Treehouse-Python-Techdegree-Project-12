@@ -5,7 +5,8 @@ from django.utils.text import slugify
 
 from accounts.models import User
 
-class Project(models.Model):  
+
+class Project(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
@@ -13,9 +14,6 @@ class Project(models.Model):
     estimate = models.CharField(max_length=50)
     requirements = models.CharField(max_length=200)
     slug = models.SlugField()
-    
-    #  def get_absolute_url(self):
-        #  return reverse('project_view', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
