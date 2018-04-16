@@ -168,7 +168,7 @@ class ViewApplications(LoginRequiredMixin, generic.ListView):
     template_name = 'accounts/applications.html'
     
     def get_queryset(self):
-        qs = super(ViewApplications, self).get_queryset()
+        qs = super(ViewApplications, self).get_queryset().order_by('-id')
         qs = qs.filter(position__project__created_by=self.request.user)
         if self.kwargs.get('filter'):
             if self.kwargs.get('filter') == 'stat':
@@ -196,7 +196,7 @@ class UpdateApplication(LoginRequiredMixin, generic.DetailView):
     def get_object(self, queryset=None):
         obj = super(UpdateApplication, self).get_object(queryset=queryset)
         if obj.position.project.created_by != self.request.user:
-            raise PermissionDenied('Only the creator of the project can accept or reject applications.')
+            raise PermissionDenied
         return obj
     
     def get_context_data(self, **kwargs):

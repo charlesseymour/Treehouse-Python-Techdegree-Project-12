@@ -7,7 +7,7 @@ class Home(ListView):
     template_name = 'index.html'
     
     def get_queryset(self):
-        qs = super(Home, self).get_queryset()
+        qs = super(Home, self).get_queryset().order_by('-id')
         if self.kwargs.get('slug'):
             return qs.filter(position__slug__exact=self.kwargs['slug'])
         else:
