@@ -7,7 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 
 from . import forms, models
@@ -69,7 +69,8 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
                                     prefix="side_projects")
         skill_list = []
         side_project_list = []
-        if form.is_valid():
+        if (form.is_valid() and skill_formsets.is_valid() and
+            side_project_formsets.is_valid()):
             for fs in skill_formsets:
                 if fs.is_valid():
                     if 'name' in fs.cleaned_data:
@@ -100,7 +101,18 @@ class EditProfile(LoginRequiredMixin, generic.UpdateView):
                         side_project_list.append(side_project)
             user.sideproject_set.set(side_project_list, clear=True)
             return self.form_valid(form)
-        return self.form_invalid(form)
+        return self.form_invalid(form, skill_formsets, side_project_formsets)
+        
+    def form_invalid(self, form, skill_formset, side_project_formset):
+        return render(self.request,
+                      'accounts/profile_edit.html',
+                      {'object': self.object,
+                       'form': form,
+                       'skill_formset': skill_formset,
+                       'side_project_formset': side_project_formset,
+                       'skill_formset_errors': skill_formset.errors,
+                       'side_project_formset_errors': side_project_formset.errors
+                       })
 
 
 class SignIn(LoginView):

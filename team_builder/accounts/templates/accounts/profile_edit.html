@@ -5,7 +5,19 @@
   <div class="bounds circle--page">
     <div class="circle--page--header circle--fluid">
       <div class="circle--fluid--cell circle--fluid--primary">
-        <h2>Profile</h2>
+        <h2>Profile</h2><br>
+        {% if form.errors or skill_formset_errors or side_project_formset_errors %}
+          {% if form.full_name.errors or form.about.errors or skill_formset_errors or side_project_formset_errors %}
+            <div style="color:red;"><strong>One or more fields needs correcting.</strong></div>
+            <br><br>
+          {% endif %}
+          {% for error in form.non_field_errors %}
+            <div style="color:red;">
+              <strong>{{ error|escape }}</strong>
+            </div>
+          </div>
+          {% endfor %}
+        {% endif %}
       </div>
       <div class="circle--fluid--cell circle--fluid--secondary">
         <input type="submit" class="button button-primary icon-on-left" value="Save Changes">
@@ -13,8 +25,22 @@
     </div>
 
     <div class="grid-70">
+      {% if form.full_name.errors %}
+        {% for error in form.full_name.errors %}
+          <div style="color:red;">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endif %}  
       <input type="text" name="full_name" {% if form.full_name.value %} value="{{ form.full_name.value }}" {% endif %} placeholder="Full Name" class="circle--input--h1">
       <div class="circle--article--body">
+        {% if form.about.errors %}
+        {% for error in form.about.errors %}
+          <div style="color:red;">
+            <strong>{{ error|escape }}</strong>
+          </div>
+        {% endfor %}
+      {% endif %} 
         <textarea name="about" form="profile_edit_form" placeholder="Tell us about yourself...">{% if form.about.value %}{{ form.about.value }}{% endif %}</textarea>
       </div>
 
@@ -59,6 +85,14 @@
       <div class="circle--secondary--module">
         <h4>My Skills</h4>
         {{ skill_formset.management_form }}
+        {% if skill_formset_errors %}
+          {% for error in skill_formset_errors %}
+            {% if error %}
+              <p style="color:blue;">Skill {{ forloop.counter }}:</p>
+              <div style="color:red;">{{ error }}</div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
         <ul class="circle--clone--list">
         {% for skill_form in skill_formset %}
           <li>    
@@ -73,6 +107,12 @@
       <div class="circle--secondary--module">
         <h4>My Projects</h4>
         {{ side_project_formset.management_form }}
+        <!--{% if side_project_formset_errors %}
+          {% for error in side_project_formset_errors %}
+            <p style="color:blue;">Side Project {{ forloop.counter }}:</p>
+            <div style="color:red;">{{ error }}</div>
+          {% endfor %}
+        {% endif %}-->
         <ul class="circle--clone--list">
         {% for side_project_form in side_project_formset %}
           <li>
