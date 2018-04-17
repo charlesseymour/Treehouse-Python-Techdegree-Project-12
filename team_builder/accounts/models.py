@@ -6,20 +6,19 @@ from django.contrib.auth.models import (
 
 from django.db import models
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password):
         if not email:
             raise ValueError("Email address is required")
         if not password:
             raise ValueError("Password is required")
-           
-        user = self.model(
-            email = self.normalize_email(email)
-        )
+
+        user = self.model(email=self.normalize_email(email))
         user.set_password(password)
         user.save()
         return user
-       
+
     def create_superuser(self, email, password):
         user = self.create_user(
             email,
@@ -29,10 +28,12 @@ class UserManager(BaseUserManager):
         user.is_superuser = True
         user.save()
         return user
-    
+
+
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.id, filename)
-    
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=50)
@@ -41,16 +42,8 @@ class User(AbstractBaseUser, PermissionsMixin):
                                upload_to=user_directory_path)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    
+
     objects = UserManager()
-    
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
-    
-    
-
-
-    
-
-    
-    
