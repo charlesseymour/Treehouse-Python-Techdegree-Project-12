@@ -19,7 +19,7 @@ Version 3.6.4
 
 # Database setup
 
-- Go to 'backend' folder and run `python manage.py makemigrations`
+- Run `python manage.py makemigrations`
 - Then run `python manage.py migrate`
 - Load initial data: `python manage.py loaddata initial_data.json`
 
